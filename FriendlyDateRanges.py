@@ -27,103 +27,54 @@ def checkInput():
     print("Input Success!")
     return listInput
 
-def assignTime(correctInput):
-    separatedInput = []
-    for entry in correctInput:
-        for item in entry.split("-"):
-            separatedInput.append(item)
-    print(separatedInput)
-    return separatedInput
+def getMonth(month):
+    months = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"]
+    return months[month-1]
 
-correctInput = checkInput()
-print(correctInput)
-separatedInput = assignTime()
-yearStart = int(separatedInput[0])
-monthStart = int(separatedInput[1])
-dayStart = int(separatedInput[2])
-yearEnd = int(separatedInput[3])
-monthEnd = int(separatedInput[4])
-dayEnd = int(separatedInput[5])
-includeYear = True
-includeMonth = True
-wrongInput = False
-
-if (yearEnd-yearStart)<=1:
-    if (yearEnd-yearStart)==1:
-        if (monthEnd - monthStart)<0:
-            includeYear = False
-        elif (monthEnd == monthStart)==0:
-            includeYear = False
-
-    elif (yearEnd-yearStart)==0:
-        includeYear = False
-        if (monthEnd-monthStart)==0:
-            if (dayEnd - dayStart)<0:
-                wrongInput = True
-        elif (monthEnd-monthStart)<0:
-            wrongInput = True
-    else:
-        wrongInput = True
-
-
-    if(yearEnd-yearStart)==1:
-        if(monthEnd-monthStart)<=0:
-            if monthEnd == monthStart:
-                includeMonth = False
-                inclueYear=False
-        else:
-            includeYear = False
-    else:
-        includeYear = False
-
-
-def dayOutput(day):
+def getDay(day):
     result = ""
-    if day == 1 or day == 21 or day == 31:
+    if (day >= 10 and day < 20):
+        result = str(day)+"th"
+    elif day%10 == 1:
         result = str(day)+"st"
-    elif day == 2 or day == 22:
+    elif day%10 == 2:
         result = str(day)+"nd"
-    elif day == 3 or day == 23:
+    elif day%10 == 3:
         result = str(day)+"rd"
     else:
         result = str(day)+"th"
     return result
 
-def monthOutput(month):
-    result = ""
-    if month == 1:
-        result = "January"
-    if month == 2:
-        result = "February"
-    if month == 3:
-        result = "March"
-    if month == 4:
-        result = "April"
-    if month == 5:
-        result = "May"
-    if month == 6:
-        result = "June"
-    if month == 7:
-        result = "July"
-    if month == 8:
-        result = "August"
-    if month == 9:
-        result = "September"
-    if month == 10:
-        result = "October"
-    if month == 11:
-        result = "November"
-    if month == 12:
-        result = "December"
-    return result
+startDate, endDate = checkInput()
+startYear = int(startDate[:4])
+startMonth = int(startDate[5:7])
+startDay = int(startDate[8:])
+endYear = int(endDate[:4])
+endMonth = int(endDate[5:7])
+endDay = int(endDate[8:])
 
-outputYearStart = str(yearStart)
-outputYearEnd = str(yearEnd)
-outputMonthStart = monthOutput(monthStart)
-outputMonthEnd = monthOutput(monthEnd)
-outputDayStart = dayOutput(dayStart)
-outputDayEnd = dayOutput(dayEnd)
+if (startYear == endYear):
+    if startMonth == endMonth and startDate != endDate and startYear == 2015:
+        print("%s %s - %s" % (getMonth(startMonth), getDay(startDay), getDay(endDay)))
+    elif startMonth == endMonth and startDate != endDate:
+        print("%s %s - %s, %s" % (getMonth(startMonth), getDay(startDay), getDay(endDay), str(startYear)))
+    elif startMonth == endMonth and startDate == endDate and startYear==2015:
+        print("%s %s" % (getMonth(startMonth), getDay(startDay)))
+    elif startMonth == endMonth and startDate == endDate:
+        print("%s %s, %s" % (getMonth(startMonth), getDay(startDay), str(startYear)))
+    elif startMonth != endMonth and startYear==2015:
+        print("%s %s - %s %s" % (getMonth(startMonth), getDay(startDay), getMonth(endMonth), getDay(endDay)))
+    elif startMonth != endMonth:
+        print("%s %s - %s %s, %s" % (getMonth(startMonth), getDay(startDay), getMonth(endMonth), getDay(endDay), str(startYear)))
 
+elif endYear-startYear == 1:
+    if endMonth < startMonth and startYear == 2015:
+        print("%s %s - %s %s" % (getMonth(startMonth), getDay(startDay), getMonth(endMonth), getDay(endDay)))
+    else:
+        print("%s %s, %s - %s %s, %s" % (getMonth(startMonth), getDay(startDay), str(startYear), getMonth(endMonth), getDay(endDay), str(endYear)))
+
+else:
+    print("%s %s, %s - %s %s, %s" % (getMonth(startMonth), getDay(startDay), str(startYear), getMonth(endMonth), getDay(endDay), str(endYear)))
 
 
 
